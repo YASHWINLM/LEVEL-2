@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,10 +11,44 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Timer timer;
-	GameObject object;
+	final int MENU_STATE = 0;
+	final int GAME_STATE = 1;
+	final int END_STATE = 2;
+	int currentState=MENU_STATE;
+	Font titleFont;
+	
+
 	GamePanel(){
 		this.timer= new Timer(1000/60,this);
-		this.object= new GameObject(10,10,500,500);
+		//this.titleFont= new Font();
+	}
+	void updateMenuState(){
+		
+		
+	}
+void updateGameState(){
+	
+	}
+	void updateEndState(){
+		
+		
+	}
+	void drawMenuState(Graphics g){
+		
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, 500, 800);
+		
+	}
+	void drawGameState(Graphics g){
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, 500,800);    
+
+		
+	}
+	void drawEndState(Graphics g){
+		g.setColor(Color.RED);
+		g.fillRect(0, 0, 500,800);    
+
 	}
 	void StartGame(){
 		timer.start();
@@ -21,11 +57,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		repaint();
-		object.Update();
+		if(currentState == MENU_STATE){
+			updateMenuState();
+		}else if(currentState == GAME_STATE){
+			updateGameState();
+		}else if(currentState == END_STATE){
+			updateEndState();
+		}
+
 	}
 public void paintComponent(Graphics g){
-	object.Draw(g);
-
+	if(currentState == MENU_STATE){
+		drawMenuState(g);
+	}else if(currentState == GAME_STATE){
+		drawGameState(g);
+	}else if(currentState == END_STATE){
+		drawEndState(g);
+	}
+	
+	
 	}
 @Override
 public void keyTyped(KeyEvent e) {
@@ -36,6 +86,15 @@ public void keyTyped(KeyEvent e) {
 public void keyPressed(KeyEvent e) {
 	// TODO Auto-generated method stub
 	System.out.println("KEY");
+	System.out.println(e.getKeyCode());
+	if (e.getKeyCode()==10) {
+		updateGameState();
+	}
+	currentState+=1;
+	if(currentState > END_STATE){
+		currentState = MENU_STATE;
+	}
+
 }
 @Override
 public void keyReleased(KeyEvent e) {
