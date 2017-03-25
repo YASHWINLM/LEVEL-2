@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		this.titleFont2= new Font("Comic Sans MS", Font.PLAIN,40);
 		this.titleFont3= new Font("Comic Sans MS", Font.PLAIN,40);
 		manager.addObject(ship);
+		
 	}
 	void updateMenuState(){
 		
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	}
 void updateGameState(){
 	manager.update();
+	manager.manageEnemies();
 	}
 	void updateEndState(){
 		
@@ -124,6 +126,9 @@ public void keyPressed(KeyEvent e) {
 	}
 	if(currentState > END_STATE){
 		currentState = MENU_STATE;
+	}
+	if (e.getKeyCode()==32) {
+		manager.addObject(new Projectile(ship.GetX()+20, ship.GetY()+20,10, 10, 10));
 	}
 
 }

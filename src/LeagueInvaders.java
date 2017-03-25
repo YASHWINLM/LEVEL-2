@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 
 public class LeagueInvaders implements KeyListener {
 	JFrame frame;
-	final int width= 500;
+	final static int width= 500;
 	final int height= 800;
 	GamePanel game;
 	public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class LeagueInvaders implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+ 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub

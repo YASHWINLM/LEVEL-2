@@ -23,4 +23,10 @@ void Update(){
 		g.fillRect(x, y, width, height);
 
 	}
+	int GetX(){
+		return x;
+	}
+	int GetY(){
+		return y;
+	}
 }
