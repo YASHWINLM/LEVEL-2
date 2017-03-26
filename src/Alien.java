@@ -10,7 +10,7 @@ public class Alien extends GameObject {
 		this.y=y;
 		this.width=width;
 		this.height=height;
-		this.speed=10;
+		this.speed=5;
 	}
 	void Draw(Graphics g){
 		g.setColor(Color.YELLOW);
