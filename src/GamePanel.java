@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -20,6 +23,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Font titleFont3;
 	Rocketship ship= new Rocketship(250,700,50,50,5);
 	ObjectManager manager= new ObjectManager();
+	public static BufferedImage alienImg;
+	public static BufferedImage rocketImg;
+	public static BufferedImage bulletImg;
+
+
 	
 	GamePanel(){
 		this.timer= new Timer(1000/60,this);
@@ -28,6 +36,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		this.titleFont3= new Font("Comic Sans MS", Font.PLAIN,40);
 		manager.addObject(ship);
 		
+		try {
+			alienImg = ImageIO.read(this.getClass().getResourceAsStream("alien.png"));
+			rocketImg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
+			bulletImg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	void updateMenuState(){
 		
@@ -36,7 +52,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 void updateGameState(){
 	manager.update();
 	manager.manageEnemies();
+	manager.checkCollision();
+	if(!ship.isAlive){
+		currentState= END_STATE;
+		manager.reset();
+		ship= new Rocketship(250,700,50,50,5);
+		manager.addObject(ship);
+		
 	}
+	System.out.println(manager.getScore());
+	
+}
 	void updateEndState(){
 		
 		
@@ -59,6 +85,7 @@ void updateGameState(){
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 500,800);    
 		manager.draw(g);
+		g.drawString("You killed "+manager.getScore()+" aliens",300, 200);
 		
 	}
 	void drawEndState(Graphics g){
@@ -106,8 +133,7 @@ public void keyTyped(KeyEvent e) {
 @Override
 public void keyPressed(KeyEvent e) {
 	// TODO Auto-generated method stub
-	System.out.println("KEY");
-	System.out.println(e.getKeyCode());
+
 	if (e.getKeyCode()==10) {
 		updateGameState();
 		currentState+=1;
